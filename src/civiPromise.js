@@ -8,8 +8,12 @@ var civiPromise = {};
 
   var civiDetails = {};
 
+  function composeUrl() {
+    
+  }
+
   function queryCivi(method, entityType) {
-    return fetch();
+    return fetch(composeUrl(method, entityType));
   }
 
   civiPromise.get = function (entityType) {
@@ -18,6 +22,10 @@ var civiPromise = {};
 
   civiPromise.create = function (entityType) {
     return queryCivi(HTTP_POST, entityType);
+  };
+
+  civiPromise.setSiteLocation = function (siteLocation) {
+    civiDetails.siteLocation = siteLocation;
   };
 
   civiPromise.setCredentials = function (siteKey, apiKey) {
