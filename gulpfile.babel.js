@@ -15,6 +15,8 @@ const BUILD_DIR = 'lib';
 const INTEGRATION_DRUPAL_ADDR = 'http://localhost:8888';
 const PROXY_PORT = 9999;
 
+let corsProxyServer;
+
 gulp.task('lint', () => {
   return gulp.src(JS_FILES)
     .pipe(eslint())
@@ -28,10 +30,13 @@ gulp.task('unitTest', (done) => {
   }, done);
 });
 
-gulp.task('integrationTest', ['proxyCors'], (done) => {
+gulp.task('integrationTest', ['startCorsProxy'], (done) => {
   karma.start({
     configFile: path.join(__dirname, '/karma.integration.conf.js')
-  }, done);
+  }, () => {
+    corsProxyServer.close(done);
+    done();
+  });
 });
 
 gulp.task('build', ['lint', 'unitTest'], () => {
@@ -40,9 +45,9 @@ gulp.task('build', ['lint', 'unitTest'], () => {
   .pipe(gulp.dest(BUILD_DIR));
 });
 
-gulp.task('proxyCors', () => {//FIXME rename to start
+gulp.task('startCorsProxy', (done) => {
   let app = connect();
   app.use(cors());
   app.use(proxy(INTEGRATION_DRUPAL_ADDR));
-  http.createServer(app).listen(PROXY_PORT);//FIXME use done callback
+  corsProxyServer = http.createServer(app).listen(PROXY_PORT, done);
 });
