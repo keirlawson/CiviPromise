@@ -35,7 +35,6 @@ gulp.task('integrationTest', ['startCorsProxy'], (done) => {
     configFile: path.join(__dirname, '/karma.integration.conf.js')
   }, () => {
     corsProxyServer.close(done);
-    done();
   });
 });
 
