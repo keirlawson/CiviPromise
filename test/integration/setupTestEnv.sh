@@ -10,7 +10,7 @@ set -e
 
 #Set up DB
 read -s -p "Enter MySQL root password: " DB_ROOT_PASSWORD
-mysql -e "create database IF NOT EXISTS $DB_NAME;" -u$DB_UNAME -p$DB_ROOT_PASSWORD
+mysql -e "create database IF NOT EXISTS $DB_NAME;" -u$DB_UNAME 
 
 #Install Drupal
 drush dl drupal-7.x --drupal-project-rename=$DRUPAL_DIR

@@ -1,0 +1,9 @@
+* work out api/site key stuff (CiviCRM IRC)
+
+0.1.0:
+
+* Make mysql password optional
+* fix integration tests
+* Add error handling
+* Document API in readme
+* Delete this file in favour of github issues

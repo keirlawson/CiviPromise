@@ -7,6 +7,40 @@ describe('CiviPromise', function () {
     //FIXME clear down existing data here
   });
 
+  it('should pass', function () {
+    expect(true).toBe(true);
+  });
+
+  it('should catch error', function (done) {
+    expect(() => {
+      setTimeout(() => {
+        throw new Error('foobar');
+        done();
+      }, 1000);
+    }).toThrow();
+  });
+
+  it('should reject the promise when a non-existant site location is specified', function (done) {
+    const ENTITY_TYPE = 'Contact';
+    const NON_EXISTANT_LOCATION = 'notALocation';
+
+    testee.setSiteLocation(NON_EXISTANT_LOCATION);
+
+    expect(() => {
+
+      testee.create(ENTITY_TYPE, { first_name: 'keir', last_name: 'lawson', debug: 1})
+      .then(() => {
+        fail('request should not have succeeded');
+        done();
+      })
+      .catch((error) => {
+        expect(true).toBe(false);
+        expect(error).toEqual({});
+        done();
+      });
+    }).toThrow();
+  });
+
   it('should create new contact and retrieve it', function (done) {
     const ENTITY_TYPE = 'Contact';
 

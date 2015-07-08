@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import 'isomorphic-fetch';
 import generateUrl from 'generateUrl';
 
 const HTTP_GET = 'GET';
@@ -9,9 +9,24 @@ const GET_ACTION = 'get';
 
 let civiDetails = {};
 
+function validateResponseBody(responseBody) {
+  if ( responseBody.is_error === '???') {//FIXME check what this is
+    return Promise.reject('Error msg here');//FIXME check what this is
+  } else {
+    return Promise.resolve(responseBody);
+  }
+}
+
+function fetchBody(url, method) {
+  let responsePromise = fetch(url, {method});
+  //FIXME what if status code isnt 200?
+  return responsePromise.then(response => response.json()).then(validateResponseBody);
+}
+
 function queryCivi(method, action, entityType, data) {
   let url = generateUrl(action, entityType, civiDetails, data);
-  return fetch(url, {method});
+  console.log(url);
+  return fetchBody(url, method);
 }
 
 export const get = queryCivi.bind(undefined, HTTP_GET, GET_ACTION);
