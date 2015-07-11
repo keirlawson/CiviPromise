@@ -1,7 +1,7 @@
 /*eslint-env node*/
 var path = require('path');
 
-const TEST_FILES = 'test/integration/*Spec.js';
+var TEST_FILES = 'test/integration/*Spec.js';
 
 module.exports = function(config) {
   config.set({
@@ -23,7 +23,7 @@ module.exports = function(config) {
         loaders: [
           { test: /\.js?$/,
             exclude: /node_modules/,
-            loader: 'babel' }
+            loader: 'babel?optional[]=runtime' }
         ]
       },
       resolve:
