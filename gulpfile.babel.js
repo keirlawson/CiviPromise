@@ -40,7 +40,7 @@ gulp.task('integrationTest', ['startCorsProxy'], (done) => {
 
 gulp.task('build', ['lint', 'unitTest'], () => {
   return gulp.src(APP_SRC)
-  .pipe(babel())
+  .pipe(babel({optional: 'runtime'}))//FIXME remove runtime support, use native promises
   .pipe(gulp.dest(BUILD_DIR));
 });
 
